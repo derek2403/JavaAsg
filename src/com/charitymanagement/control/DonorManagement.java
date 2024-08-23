@@ -75,7 +75,7 @@ public class DonorManagement {
         return filteredDonors;
     }
 
-    // Categorise donors (type: government, private, public)
+    // Categorize donors (type: government, private, public)
     public LinkedList<Donor> getDonorsByCategory(String category) {
         LinkedList<Donor> categorizedDonors = new LinkedList<>();
         for (int i = 0; i < donors.size(); i++) {
@@ -130,6 +130,4 @@ public class DonorManagement {
     public LinkedList<Donor> getAllDonors() {
         return donors;
     }
-
-    
 }
