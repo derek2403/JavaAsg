@@ -2,17 +2,17 @@ package com.charitymanagement.entity;
 
 import com.charitymanagement.adt.LinkedList;
 
-public class Donor {
+public class Event {
     private String id;
     private String name;
-    private String type;
-    private LinkedList<Donation> donations;
+    private String date;
+    private LinkedList<Volunteer> volunteers;
 
-    public Donor(String id, String name, String type) {
+    public Event(String id, String name, String date) {
         this.id = id;
         this.name = name;
-        this.type = type;
-        this.donations = new LinkedList<>();
+        this.date = date;
+        this.volunteers = new LinkedList<>();
     }
 
     // Getters, setters, and other methods
