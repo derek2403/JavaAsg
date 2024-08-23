@@ -1,7 +1,7 @@
 package com.charitymanagement.boundary;
-
 import com.charitymanagement.adt.LinkedList;
 import com.charitymanagement.control.*;
+import com.charitymanagement.entity.Donor;
 import com.charitymanagement.entity.Event;
 import com.charitymanagement.entity.Volunteer;
 import java.util.Scanner;
@@ -72,7 +72,84 @@ public class UserInterface {
     }
 
     private void manageDonors() {
-        // Existing donor management code...
+        boolean managing = true;
+        while (managing) {
+            displayDonorMenu();
+            int choice = getIntInput("Enter your choice: ");
+
+            switch (choice) {
+                case 1:
+                    Donor newDonor = getDonorDetailsFromUser();
+                    donorManagement.addDonor(newDonor);
+                    System.out.println("Donor added successfully.");
+                    break;
+                case 2:
+                    String donorIdToRemove = getStringInput("Enter the Donor ID to remove: ");
+                    boolean removed = donorManagement.removeDonor(donorIdToRemove);
+                    System.out.println(removed ? "Donor removed successfully." : "Donor not found.");
+                    break;
+                case 3:
+                    String donorIdToUpdate = getStringInput("Enter the Donor ID to update: ");
+                    String name = getStringInput("Enter the new name: ");
+                    String type = getStringInput("Enter the new type (government/private/public): ");
+                    boolean isOrganization = getBooleanInput("Is this an organization? (true/false): ");
+                    boolean updated = donorManagement.updateDonorDetails(donorIdToUpdate, name, type, isOrganization);
+                    System.out.println(updated ? "Donor updated successfully." : "Donor not found.");
+                    break;
+                case 4:
+                    String donorIdToSearch = getStringInput("Enter the Donor ID to search: ");
+                    Donor foundDonor = donorManagement.findDonorById(donorIdToSearch);
+                    System.out.println(foundDonor != null ? foundDonor : "Donor not found.");
+                    break;
+                case 5:
+                    donorManagement.listDonorsWithDonations();
+                    break;
+                case 6:
+                    String filterType = getStringInput("Enter donor type to filter (government/private/public): ");
+                    boolean filterIsOrganization = getBooleanInput("Filter for organizations? (true/false): ");
+                    LinkedList<Donor> filteredDonors = donorManagement.filterDonors(filterType, filterIsOrganization);
+                    for (int i = 0; i < filteredDonors.size(); i++) {
+                        System.out.println(filteredDonors.get(i));
+                    }
+                    break;
+                case 7:
+                    String category = getStringInput("Enter donor category (government/private/public): ");
+                    LinkedList<Donor> categorizedDonors = donorManagement.getDonorsByCategory(category);
+                    for (int i = 0; i < categorizedDonors.size(); i++) {
+                        System.out.println(categorizedDonors.get(i));
+                    }
+                    break;
+                case 8:
+                    System.out.println(donorManagement.generateSummaryReport());
+                    break;
+                case 0:
+                    managing = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private void displayDonorMenu() {
+        System.out.println("\n--- Donor Management ---");
+        System.out.println("1. Add a new donor");
+        System.out.println("2. Remove a donor");
+        System.out.println("3. Update donor details");
+        System.out.println("4. Search donor");
+        System.out.println("5. List donors with donations");
+        System.out.println("6. Filter donors");
+        System.out.println("7. Categorize donors");
+        System.out.println("8. Generate summary report");
+        System.out.println("0. Return to main menu");
+    }
+
+    private Donor getDonorDetailsFromUser() {
+        String id = getStringInput("Enter donor ID: ");
+        String name = getStringInput("Enter donor name: ");
+        String type = getStringInput("Enter donor type (government/private/public): ");
+        boolean isOrganization = getBooleanInput("Is this an organization? (true/false): ");
+        return new Donor(id, name, type, isOrganization);
     }
 
     private void manageDonees() {
